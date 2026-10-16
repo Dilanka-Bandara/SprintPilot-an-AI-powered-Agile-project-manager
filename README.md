@@ -15,7 +15,9 @@
 - Go/Gin and Python/FastAPI service health endpoints; Google ADK dependency installed for the next AI milestone.
 - Unit/API tests, Playwright desktop/mobile journeys, and three CI jobs.
 
-**This is milestone 1, not the finished six-sprint product.** The demo has one local profile and a sample sprint. It does not provide Firebase authentication, PostgreSQL persistence, real multi-user workspaces, sprint lifecycle management, AI responses, GitHub webhooks, Pub/Sub, n8n automations, or cloud deployment yet. The API binds to `127.0.0.1` and refuses production mode. Do not expose it through a public tunnel or use it for sensitive information.
+**Milestone 2 now adds Firebase sign-in and PostgreSQL workspaces.** Email/Google login, password reset, workspace creation, membership checks, member listing, and persistent workspace issues are available. Follow [authentication setup](docs/AUTH_SETUP.md), then open `/login`. Real workspaces start empty and are separate from the demo.
+
+The six-sprint product is still in progress. Invitations, role administration, team assignment, real sprint lifecycle, workspace standups, AI, GitHub webhooks, Pub/Sub, n8n, and deployment are not implemented yet. The API binds to `127.0.0.1` and refuses production mode because the unauthenticated demo still exists.
 
 ## Run the working demo
 
@@ -23,6 +25,7 @@ Install Node.js 22.20+ and pnpm 11.19.0, then:
 
 ```sh
 pnpm install
+pnpm --filter @sprintpilot/api db:generate
 pnpm dev
 ```
 
@@ -77,9 +80,9 @@ uv run --project services/agents pytest services/agents/tests
 
 ## Optional local infrastructure
 
-Copy `.env.example` to `.env`, change the local PostgreSQL password, and run `make infra` (`docker compose up -d`). This milestone provides PostgreSQL 16 and Mailpit only. They are preparation for later features and are not used by the demo API. PostgreSQL is on port 5432; Mailpit inbox is http://127.0.0.1:8025. Stop with `docker compose down` (database volume retained).
+Copy `.env.example` to `.env`, change the local PostgreSQL password in both `POSTGRES_PASSWORD` and `DATABASE_URL`, and run `make infra` (`docker compose up -d`). PostgreSQL 16 is used by authenticated workspaces when `WORKSPACES_ENABLED=true`; the demo still uses JSON. Its default host port is 55432. Mailpit is reserved for future invitations; its inbox is http://127.0.0.1:8025. Stop with `docker compose down` (database volume retained).
 
-`make up`, `make migrate`, `make seed`, `make sqlc`, and `make eval` fail with an explanatory message until their real implementations land. They are not success-returning placeholders.
+`make migrate` applies the checked-in Prisma migrations. `make up`, `make seed`, `make sqlc`, and `make eval` still fail with an explanatory message until implemented.
 
 ## Architecture
 
@@ -87,7 +90,7 @@ Copy `.env.example` to `.env`, change the local PostgreSQL password, and run `ma
 flowchart LR
   Browser[React workspace] --> API[Fastify BFF]
   API --> Demo[Local demo JSON]
-  API -. planned .-> DB[(PostgreSQL / Prisma)]
+  API --> DB[(PostgreSQL / Prisma workspaces)]
   API -. planned .-> Go[Go / Gin insights]
   API -. planned .-> ADK[Python / Google ADK / Gemini]
   API -. planned .-> Events[Pub/Sub]
@@ -95,7 +98,7 @@ flowchart LR
   N8N[n8n automations] -. planned .-> API
 ```
 
-The browser calls only the BFF. The current demo module is explicitly separate from the planned authenticated workspace API; its local storage is not a replacement for the specified Prisma architecture.
+The browser calls the BFF for application data and Firebase directly for authentication. The demo module is separate from the authenticated workspace API and its Prisma-backed storage.
 
 See [architecture](docs/architecture.md), [stack choices](docs/TECH_STACK.md), [roadmap](docs/ROADMAP.md), and the [original project brief](docs/project-brief.md). The supplied document is preserved as a reference; its embedded example prompts are not automatically executed instructions or claims of completed work. Learning reflections remain for the human to write.
 

@@ -1,4 +1,170 @@
 @import 'tailwindcss';
+
+.auth-page {
+  min-height: 100vh;
+  padding: 42px 24px;
+  background:
+    radial-gradient(ellipse at top right, #f8e9da, transparent 60%), #fbfaf8;
+}
+.auth-page > .brand {
+  justify-content: center;
+}
+.auth-card {
+  max-width: 460px;
+  margin: 48px auto 20px;
+  padding: 36px;
+  background: #fffefa;
+  border: 1px solid #e7e4dd;
+  border-radius: 16px;
+  box-shadow: 0 15px 60px #56442a08;
+}
+.auth-card h1 {
+  font-size: 28px;
+}
+.auth-card > p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #7d8174;
+  margin-top: 12px;
+}
+.auth-submit {
+  display: flex;
+  width: 100%;
+  margin-top: 22px;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+}
+.auth-divider {
+  margin-top: 20px;
+  text-align: center;
+  color: #a2a594;
+  font-size: 12px;
+}
+.auth-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  color: #977551;
+  font-size: 12px;
+}
+.demo-link {
+  display: block;
+  border-top: 1px solid #ebe7dc;
+  padding-top: 20px;
+  margin-top: 25px;
+  text-align: center;
+  font-size: 12px;
+  color: #7d8671;
+}
+.auth-footer {
+  text-align: center;
+  color: #a1a48f;
+  font-size: 12px;
+}
+.auth-notice {
+  color: #63844f;
+}
+.account-header {
+  padding: 22px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e7e4dd;
+  background: #fffefa;
+  gap: 15px;
+}
+.account-header > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #78816c;
+  font-size: 12px;
+}
+.account-header button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.account-content {
+  max-width: 1300px;
+  padding: 40px 30px;
+  margin: auto;
+}
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 25px;
+}
+.workspace-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eeece4;
+  font-size: 13px;
+}
+.workspace-row > div {
+  flex: 1;
+}
+.workspace-row small {
+  display: block;
+  margin-top: 5px;
+  color: #949b86;
+}
+.workspace-row .workspace-icon {
+  min-width: 40px;
+  width: auto;
+  padding: 6px;
+}
+.workspace-back {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: #878e7c;
+  font-size: 12px;
+}
+.workspace-tabs {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid #e8e5dc;
+  margin-bottom: 22px;
+}
+.workspace-tabs button {
+  padding: 12px 18px;
+  color: #838d75;
+}
+.workspace-tabs .selected {
+  border-bottom: 2px solid #e96f48;
+  color: #c46b45;
+}
+.workspace-search {
+  width: min(400px, 100%);
+  margin: 20px 0;
+}
+@media (max-width: 650px) {
+  .auth-page {
+    padding: 30px 16px;
+  }
+  .auth-card {
+    padding: 25px;
+    margin-top: 30px;
+  }
+  .account-header {
+    padding: 16px;
+    flex-wrap: wrap;
+  }
+  .account-header > div {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .account-content {
+    padding: 28px 18px;
+  }
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
 @theme {
   --font-sans: 'Segoe UI', Arial, sans-serif;
 }

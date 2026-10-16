@@ -3,3 +3,4 @@ uv.lock
 go.sum
 docs/project-brief.md
 services/insights/
+apps/api/src/generated/

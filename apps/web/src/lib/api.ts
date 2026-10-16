@@ -1,3 +1,24 @@
+import { firebaseAuth } from './firebase';
+export async function authenticatedApi<T>(
+  path: string,
+  init?: RequestInit,
+): Promise<T> {
+  const user = firebaseAuth().currentUser;
+  if (!user) throw new Error('Please sign in to continue.');
+  const headers = new Headers(init?.headers);
+  headers.set('Authorization', `Bearer ${await user.getIdToken()}`);
+  if (init?.body) headers.set('Content-Type', 'application/json');
+  const response = await fetch(`/api${path}`, { ...init, headers });
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    throw new Error(
+      body?.error?.message ??
+        'Could not reach your workspace. Please try again.',
+    );
+  }
+  return response.json() as Promise<T>;
+}
+
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   // A JSON content type on a bodyless DELETE makes Fastify expect a JSON body.
   const headers = new Headers(init?.headers);

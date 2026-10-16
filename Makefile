@@ -23,6 +23,8 @@ infra:
 up:
 	@echo "Full-system containers are planned. Use make infra and make dev for this milestone."
 	@exit 1
-migrate seed sqlc eval:
+migrate:
+	pnpm --filter @sprintpilot/api db:migrate
+seed sqlc eval:
 	@echo "This target belongs to a later milestone. See docs/ROADMAP.md. Demo data seeds automatically."
 	@exit 1
