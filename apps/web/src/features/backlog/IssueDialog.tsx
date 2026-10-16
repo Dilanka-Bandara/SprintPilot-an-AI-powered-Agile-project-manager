@@ -13,12 +13,14 @@ export function IssueDialog({
   close,
   save,
   remove,
+  assignees = ['Unassigned', 'Dilanka', 'Maya', 'Alex', 'Sam'],
 }: {
   issue?: Issue;
   initialStatus: Issue['status'];
   close: () => void;
   save: (data: IssueInput) => Promise<unknown>;
   remove: () => Promise<unknown>;
+  assignees?: Issue['assignee'][];
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [error, setError] = useState('');
@@ -126,7 +128,7 @@ export function IssueDialog({
               name="assignee"
               defaultValue={issue?.assignee ?? 'Unassigned'}
             >
-              {['Unassigned', 'Dilanka', 'Maya', 'Alex', 'Sam'].map((value) => (
+              {assignees.map((value) => (
                 <option key={value}>{value}</option>
               ))}
             </select>

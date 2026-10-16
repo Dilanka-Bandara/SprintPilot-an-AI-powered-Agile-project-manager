@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum IssueStatus {
+  BACKLOG
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  DONE
+}
+
+enum IssueType {
+  STORY
+  TASK
+  BUG
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model User {
+  id          String       @id @default(uuid()) @db.Uuid
+  firebaseUid String       @unique @map("firebase_uid")
+  email       String
+  name        String
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  memberships Membership[]
+  @@map("users")
+}
+
+model Workspace {
+  id           String       @id @default(uuid()) @db.Uuid
+  name         String
+  key          String
+  issueCounter Int          @default(0) @map("issue_counter")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  memberships  Membership[]
+  issues       Issue[]
+  @@map("workspaces")
+}
+
+model Membership {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @db.Uuid @map("user_id")
+  workspaceId String    @db.Uuid @map("workspace_id")
+  role        Role      @default(MEMBER)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@unique([userId, workspaceId])
+  @@index([workspaceId])
+  @@map("memberships")
+}
+
+model Issue {
+  id          String      @id @default(uuid()) @db.Uuid
+  workspaceId String      @db.Uuid @map("workspace_id")
+  number      Int
+  title       String
+  description String      @default("")
+  type        IssueType   @default(STORY)
+  status      IssueStatus @default(BACKLOG)
+  priority    Priority    @default(MEDIUM)
+  points      Int         @default(3)
+  label       String      @default("Platform")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  workspace   Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@unique([workspaceId, number])
+  @@index([workspaceId, status, createdAt])
+  @@map("issues")
+}

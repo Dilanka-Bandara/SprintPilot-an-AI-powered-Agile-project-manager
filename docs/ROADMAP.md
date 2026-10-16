@@ -13,9 +13,11 @@ The full scope is in [the supplied project brief](project-brief.md). Checkboxes 
 
 ## Milestone 2 — Real team workspace
 
-- [ ] Prisma schema, migrations, PostgreSQL persistence and transactional issue counters.
-- [ ] Firebase emulators, email/Google sign-in, verified tokens, membership authorization.
-- [ ] Workspace creation, invitations, roles, epics, comments, activity log.
+- [x] Initial Prisma schema, migrations, PostgreSQL workspace/issue persistence and transactional issue counters.
+- [x] Firebase email/Google sign-in, password reset, verified tokens, membership authorization.
+- [x] Workspace creation, owner membership, member list and workspace-scoped issue CRUD.
+- [ ] Firebase emulators and authenticated browser tests.
+- [ ] Invitations, role administration, team assignment, epics, comments, activity log.
 - [ ] Sprint planning, ordering, one-active-sprint constraint, completion carryover.
 - [ ] Transactional outbox and Pub/Sub emulator/event delivery.
 

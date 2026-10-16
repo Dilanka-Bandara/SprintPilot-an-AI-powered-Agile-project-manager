@@ -1,5 +1,6 @@
 import { spawnSync } from 'node:child_process';
 for (const [command, args] of [
+  ['pnpm', ['--filter', '@sprintpilot/api', 'db:generate']],
   ['go', ['-C', 'services/insights', 'mod', 'download']],
   ['uv', ['sync', '--project', 'services/agents']],
   ['pnpm', ['exec', 'lefthook', 'install']],
@@ -10,7 +11,7 @@ for (const [command, args] of [
   });
   if (result.error || result.status !== 0) {
     console.error(
-      `Setup failed: install ${command} and retry. For the web/API demo only: pnpm install && pnpm dev.`,
+      `Setup failed while running ${command}. Check the output above. For web/API only: pnpm install, pnpm --filter @sprintpilot/api db:generate, then pnpm dev.`,
     );
     process.exit(1);
   }
