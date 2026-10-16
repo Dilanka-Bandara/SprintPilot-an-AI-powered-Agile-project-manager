@@ -25,6 +25,12 @@ Restart the development servers after changing `.env`. Vite exposes only the `VI
 
 ## Verification and boundaries
 
+### Google popup opens and immediately closes
+
+Read the error below the Google button. `auth/configuration-not-found` means Firebase could not find the authentication configuration. In the Firebase Console, select the project matching `VITE_FIREBASE_PROJECT_ID`, open Authentication, and click **Get started** if shown. Under **Sign-in method**, enable Google, choose a support email, and save. Confirm that the web app configuration was copied from that same project. Refresh the login page and retry. If the error persists, share the displayed error code; closing the popup alone does not identify the cause.
+
+For `auth/unauthorized-domain`, add the hostname used in the browser (`127.0.0.1` or `localhost`, without a scheme or port) under Authentication → Settings → Authorized domains. For `auth/popup-blocked`, allow popups for the local app.
+
 The API verifies ID-token signature, project audience/issuer, and expiry through Firebase Admin. It does not trust a user ID supplied by the browser. Membership is checked before every workspace operation, and issue updates/deletes include both issue ID and workspace ID. Workspace creation and owner membership are atomic. Issue-number allocation uses a row update inside a database transaction.
 
 Only token verification is used; the application does not administer Firebase accounts. No service-account private key is needed by this code path with an explicit project ID. Deployment, account administration, and revocation checks will use Application Default Credentials and least-privilege service identities in a later milestone. Do not set `FIREBASE_AUTH_EMULATOR_HOST` when testing real Firebase accounts.

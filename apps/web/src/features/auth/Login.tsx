@@ -18,6 +18,8 @@ function message(error: unknown) {
       ? error.message
       : 'Sign-in failed. Please try again.';
   const messages: Record<string, string> = {
+    'auth/configuration-not-found':
+      'Firebase Authentication configuration was not found. In the Firebase Console for this app’s project, open Authentication, click Get started if shown, then enable Google under Sign-in method and save a support email. Also check that the web app configuration belongs to the same project.',
     'auth/invalid-credential': 'The email or password is incorrect.',
     'auth/invalid-email': 'Enter a valid email address.',
     'auth/email-already-in-use':
