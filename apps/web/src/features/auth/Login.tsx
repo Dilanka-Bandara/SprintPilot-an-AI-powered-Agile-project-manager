@@ -19,7 +19,7 @@ function message(error: unknown) {
       : 'Sign-in failed. Please try again.';
   const messages: Record<string, string> = {
     'auth/configuration-not-found':
-      'Firebase Authentication configuration was not found. In the Firebase Console for this app’s project, open Authentication, click Get started if shown, then enable Google under Sign-in method and save a support email. Also check that the web app configuration belongs to the same project.',
+      'Firebase Authentication configuration was not found. In the Firebase Console for this app’s project, open Authentication, click Get started if shown, then enable Email/Password and Google under Sign-in method. Also check that the web app configuration belongs to the same project.',
     'auth/invalid-credential': 'The email or password is incorrect.',
     'auth/invalid-email': 'Enter a valid email address.',
     'auth/email-already-in-use':
@@ -33,7 +33,7 @@ function message(error: unknown) {
     'auth/unauthorized-domain':
       'Add this hostname to Firebase Authentication → Settings → Authorized domains.',
     'auth/operation-not-allowed':
-      'Enable this sign-in provider in Firebase Authentication.',
+      'This sign-in method is disabled in Firebase. For account creation or email sign-in, enable Email/Password under Authentication → Sign-in method in the Firebase Console. For Google sign-in, enable Google.',
     'auth/network-request-failed':
       'Could not reach Firebase. Check your internet connection.',
     'auth/too-many-requests': 'Too many attempts. Wait a moment and try again.',
@@ -85,6 +85,16 @@ export function Login() {
           <div className="error" role="alert">
             Firebase is not configured on this installation. See
             docs/AUTH_SETUP.md. You can still explore the demo.
+          </div>
+        )}
+        {error && (
+          <div
+            className="error"
+            role="alert"
+            tabIndex={-1}
+            ref={(element) => element?.focus()}
+          >
+            {error}
           </div>
         )}
         <form
@@ -156,11 +166,6 @@ export function Login() {
         >
           Continue with Google
         </button>
-        {error && (
-          <div className="error" role="alert">
-            {error}
-          </div>
-        )}
         {notice && (
           <p role="status" className="auth-notice">
             {notice}
