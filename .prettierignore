@@ -1,0 +1,5 @@
+pnpm-lock.yaml
+uv.lock
+go.sum
+docs/project-brief.md
+services/insights/

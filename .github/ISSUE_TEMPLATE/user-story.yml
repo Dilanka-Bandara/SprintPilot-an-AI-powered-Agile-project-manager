@@ -1,0 +1,23 @@
+name: User story
+description: Plan a small, testable increment of SprintPilot.
+title: '[Story] '
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      placeholder: As a … I want … so that …
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable outcomes that make this story done.
+    validations:
+      required: true
+  - type: dropdown
+    id: points
+    attributes:
+      label: Story points
+      options: ['1', '2', '3', '5', '8', '13']

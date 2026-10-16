@@ -1,0 +1,32 @@
+{
+  "name": "sprintpilot",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"pnpm --filter @sprintpilot/api dev\" \"pnpm --filter @sprintpilot/web dev\"",
+    "dev:all": "concurrently -k -n app,insights,agents \"pnpm dev\" \"go -C services/insights run ./cmd/server\" \"uv run --project services/agents uvicorn sprintpilot_agents.server:app --app-dir services/agents --reload --port 8000\"",
+    "build": "pnpm -r build",
+    "lint": "eslint . && prettier --check . && pnpm -r typecheck",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "setup": "pnpm install && node scripts/setup.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "concurrently": "^10.0.6",
+    "eslint": "^10.12.0",
+    "lefthook": "^2.2.2",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "vitest": "^5.0.4"
+  }
+}
